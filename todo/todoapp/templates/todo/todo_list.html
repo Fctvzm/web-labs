@@ -1,0 +1,45 @@
+{% extends "../base.html" %}
+
+{% block content %}
+
+    <div class="well">
+        <h1>
+            {% if todos|length > 1 %}
+                {{todos|length}} todos
+            {% elif todos|length == 1 %}
+                {{todos|length}} todo
+            {% else %}
+                todo list empty
+            {% endif %}
+        </h1>
+        
+       <a href="{% url 'todo_add' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+        
+        <a href="{% url 'todo_sort' %}">
+            <button class="btn btn-primary">By priority</button>
+        </a>
+
+        {% for todo in todos %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a class="btn btn-default" href="{% url 'todo_delete' todo_id=todo.id %}"><span class="glyphicon glyphicon-remove"></span></a>
+                    <a class="btn btn-default" href="{% url 'todo_update' todo_id=todo.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+
+                    {% if todo.completed == False %}
+                        <h2><a href="{% url 'todo_complete' todo_id=todo.id %}">{{todo.title}}</a></h2>
+                    {% else %}
+                        <h2 class="todo-completed">  {{todo.title}} </h2>
+                    {% endif %}
+                    <a href="{% url 'todo_detail' todo_id=todo.id %}"><h3>View More</h3></a>
+                    
+                    <h2>Priority:<b> {{todo.priority}}</b> </h2>
+                    <h3 class="pull-right">Created at: {{todo.created_at}}</h3>
+                    <h3 class="pull-left">Updated at: {{todo.updated_at}}</h3>     
+                    
+                       
+                </div>
+            </div>
+        {% endfor %}
+    
+    </div>
+{% endblock content %}

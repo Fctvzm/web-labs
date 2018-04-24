@@ -1,0 +1,36 @@
+{% extends "../base.html" %}
+
+{% block content %}
+
+    <div class="well">
+        <h1>
+            {% if contacts|length > 1 %}
+                {{contacts|length}} contacts
+            {% elif contacts|length == 1 %}
+                {{contacts|length}} contact
+            {% else %}
+                contact list empty
+            {% endif %}
+        </h1>
+        <a href="{% url 'contact_add' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+
+        <a href="{% url 'contact_sort'%}">
+                <button class="btn btn-primary">By name</button>
+        </a>
+
+        {% for contact in contacts %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a class="btn btn-default" href="{% url 'contact_delete' contact_id=contact.id %}"><span class="glyphicon glyphicon-remove"></span></a>
+                    <a class="btn btn-default" href="{% url 'contact_update' contact_id=contact.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                    <h2><a href="{% url 'contact_detail' contact_id=contact.id %}">{{contact.name}}</a></h2>
+                    <h3>{{contact.phone_number}}</h3>        
+                    <h3 class="pull-right">Created at: {{contact.created_at}}</h3>   
+                    <h3 class="pull-left">Updated at: {{contact.updated_at}}</h3>        
+                </div>
+            </div>
+        {% endfor %}
+    
+
+    </div>
+{% endblock content %}
